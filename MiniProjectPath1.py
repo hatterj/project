@@ -1,6 +1,7 @@
 import pandas
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.linear_model import LinearRegression
 
 ''' 
 The following is the starting code for path1 for data reading to make your first step easier.
@@ -54,31 +55,55 @@ elif averages.index(succ_bridge) == 3:
 lowtemp = dataset_1['Low Temp']
 minimumlow = int(min(lowtemp))
 maximumlow = int(max(lowtemp))
+averagelow = np.mean(lowtemp)
+stdlow = np.std(lowtemp)
 ranglow = maximumlow - minimumlow
 
 hightemp = dataset_1['High Temp']
 minimumhigh = int(min(hightemp))
 maximumhigh = int(max(hightemp))
+averagehigh = np.mean(hightemp)
+stdhigh = np.std(hightemp)
 ranghigh = maximumhigh - minimumhigh
 
 weather = dataset_1['Precipitation']
 maxweather = int(max(weather))
 minweather = int(min(weather))
+averageweather = np.mean(weather)
+stdweather = np.std(weather)
 rangweather = maxweather - minweather
-dataset_1['weather'] = (pandas.to_numeric(dataset_1['Precipitation'].replace(',', '', regex=True)) - minweather) / rangweather
+dataset_1['weather'] = (pandas.to_numeric(dataset_1['Precipitation'].replace(',', '', regex=True)) - averageweather) / stdweather
 
 
 
 ppl = dataset_1['Total']
 minimumppl = int((min(ppl)))
 maximumppl = int((max(ppl)))
+averageppl = np.mean(ppl)
+stdppl = np.std(ppl)
 rangppl = maximumppl - minimumppl
 
-dataset_1['traffic'] = (pandas.to_numeric(dataset_1['Total'].replace(',', '', regex=True)) - minimumppl) / rangppl
+dataset_1['traffic'] = (pandas.to_numeric(dataset_1['Total'].replace(',', '', regex=True)) - averageppl) / stdppl
 norm = dataset_1['traffic']
 
-dataset_1['lowtemps'] = (pandas.to_numeric(dataset_1['Low Temp'].replace(',', '', regex=True))  - minimumlow) / ranglow
-dataset_1['hightemps'] = (pandas.to_numeric(dataset_1['High Temp'].replace(',', '', regex=True))  - minimumhigh) / ranghigh
+dataset_1['lowtemps'] = (pandas.to_numeric(dataset_1['Low Temp'].replace(',', '', regex=True))  - averagelow) / stdlow
+dataset_1['hightemps'] = (pandas.to_numeric(dataset_1['High Temp'].replace(',', '', regex=True))  - averagehigh) / stdhigh
+
+
+
+datacopy = dataset_1.copy
+
+
+dataset_1['weather'] = (pandas.to_numeric(dataset_1['weather'].replace(',', '', regex=True)))
+plt.scatter(dataset_1['weather'], dataset_1['traffic'])
+#plt.scatter(dataset_1['lowtemps'], dataset_1['traffic'])
+#plt.scatter(dataset_1['hightemps'], dataset_1['traffic'])
+x = np.array(range(len(ppl)))
+x = np.reshape(x, (-1,1))
+y1 = dataset_1['traffic']
+
+
+plt.show()
 
 dataset_1.plot(x='Date', y=['lowtemps', 'traffic'])
 plt.title('Low Temps & Traffic Throughout the Year')
@@ -198,7 +223,6 @@ print('Correlation between days of the week and bridge traffic: ', corr_daystotr
 ###attempting to fit them
 
 
-regression = np.polyfit(dataset_1['Date'], dataset_1['traffic'], deg=2)
 
 
 # print(dataset_1.to_string())
