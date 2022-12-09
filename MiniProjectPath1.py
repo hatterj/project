@@ -7,6 +7,7 @@ from sklearn.linear_model import LinearRegression
 The following is the starting code for path1 for data reading to make your first step easier.
 'dataset_1' is the clean data for path1.
 '''
+
 dataset_1 = pandas.read_csv('NYC_Bicycle_Counts_2016_Corrected.csv')
 dataset_1['Brooklyn Bridge']      = pandas.to_numeric(dataset_1['Brooklyn Bridge'].replace(',','', regex=True))
 dataset_1['Manhattan Bridge']     = pandas.to_numeric(dataset_1['Manhattan Bridge'].replace(',','', regex=True))
@@ -17,7 +18,7 @@ dataset_1['Williamsburg Bridge']  = pandas.to_numeric(dataset_1['Williamsburg Br
 dataset_1['Total'] = pandas.to_numeric(dataset_1['Total'].replace(',', '', regex=True))
 
 
-print(dataset_1.to_string()) #This line will print out your data
+#print(dataset_1.to_string()) #This line will print out your data
 
 brook_bridge = dataset_1['Brooklyn Bridge']
 man_bridge = dataset_1['Manhattan Bridge']
@@ -96,13 +97,11 @@ datacopy = dataset_1.copy
 
 dataset_1['weather'] = (pandas.to_numeric(dataset_1['weather'].replace(',', '', regex=True)))
 plt.scatter(dataset_1['weather'], dataset_1['traffic'])
-#plt.scatter(dataset_1['lowtemps'], dataset_1['traffic'])
-#plt.scatter(dataset_1['hightemps'], dataset_1['traffic'])
-x = np.array(range(len(ppl)))
-x = np.reshape(x, (-1,1))
-y1 = dataset_1['traffic']
-
-
+plt.scatter(dataset_1['lowtemps'], dataset_1['traffic'])
+plt.scatter(dataset_1['hightemps'], dataset_1['traffic'])
+plt.xlabel('Dates')
+plt.ylabel('traffic')
+plt.title('Weather Effects on Traffic')
 plt.show()
 
 dataset_1.plot(x='Date', y=['lowtemps', 'traffic'])
@@ -118,11 +117,6 @@ plt.ylabel('Normlaized High Temps and Traffic')
 plt.show()
 
 
-dataset_1.plot.bar(x='Date', y=['lowtemps', 'traffic'])
-plt.title('Low Temps and Traffic Throughout the Year')
-#plt.xlablel('Date')
-plt.ylabel('Normalized Low Temps and Traffic')
-plt.show()
 
 
 
